@@ -1,4 +1,4 @@
-fetch("https://koinbase.cyberjutsu-lab.tech/api.php?case=detail_info")
+fetch("/api.php?case=detail_info")
   .then(res => res.json())
   .then(data => {
     const cc = data.plain_credit_card || 'N/A';
