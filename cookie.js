@@ -1,1 +1,1 @@
-alert(1);
+alert(window.location.origin);
